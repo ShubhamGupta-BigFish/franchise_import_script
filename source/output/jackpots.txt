@@ -1,0 +1,30 @@
+'jackpot'=>[
+[
+'type'=>'grand',
+'betMode'=>'anyBet',
+'multiplier'=>40000,
+'betContribution'=>0.001,
+'ident'=>[-1, -1, -1, -1, -1],
+'allowWilds' => false
+],[
+'type'=>'major',
+'betMode'=>'anyBet',
+'multiplier'=>7500,
+'betContribution'=>0.0015,
+'ident'=>[-1, -1, -1, -1, -1],
+'allowWilds' => false
+],[
+'type'=>'minor',
+'betMode'=>'anyBet',
+'multiplier'=>1000,
+'betContribution'=>0,
+'ident'=>[-1, -1, -1, -1, -1],
+'allowWilds' => false
+],[
+'type'=>'mini',
+'betMode'=>'anyBet',
+'multiplier'=>500,
+'betContribution'=>0,
+'ident'=>[-1, -1, -1, -1, -1],
+'allowWilds' => false
+],],
