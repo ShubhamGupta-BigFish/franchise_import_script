@@ -1,18 +1,15 @@
 var prompt = require('prompt-sync')({ sigint: true });
-var config = require('./config.json');
+var userInputConfig = require('./userInputConfig.json');
 var util = require('./util');
 var autoFindRowColumn = require('./autoFindRowColumn');
 
-function createLines(workbook) {
-
-    var sheet = workbook.Sheets[config.sheetNames.lines];
-
+function createLines(sheetName, sheet) {
     if (!sheet) {
         util.logError("SHEET NOT FOUND");
         return;
     }
 
-    var autoFindData = autoFindRowColumn.determineData(sheet, config.autoFindKeys.lines);
+    var autoFindData = autoFindRowColumn.determineData(sheet, userInputConfig.autoFindKeys.lines);
     var toolCorrect = false;
 
     if (autoFindData && Object.keys(autoFindData).length > 0) {
@@ -29,13 +26,13 @@ function createLines(workbook) {
 
     var isReelHeightOne = prompt("is reels height in game is 1 (1 for yes/ 2 for no) : ");
     if (isReelHeightOne && parseInt(isReelHeightOne) === 1) {
-        createLinesForReelHeightOne(sheet, startingCellId, endCellId);
+        createLinesForReelHeightOne(sheetName, sheet, startingCellId, endCellId);
     } else if (isReelHeightOne && parseInt(isReelHeightOne) === 2) {
-        createLinesForMultiReelHeight(sheet, startingCellId, endCellId);
+        createLinesForMultiReelHeight(sheetName, sheet, startingCellId, endCellId);
     }
 }
 
-function createLinesForReelHeightOne(sheet, startingCellId, endCellId) {
+function createLinesForReelHeightOne(sheetName, sheet, startingCellId, endCellId) {
     var linesData;
     var visibleReelHeight = prompt("Enter visible Reel Height : ");
 
@@ -51,7 +48,7 @@ function createLinesForReelHeightOne(sheet, startingCellId, endCellId) {
             for (var columnNum = 0; columnNum < cellIds.length; columnNum++) {
                 var colNum = columnNum * visibleReelHeight;
 
-                var val = util.readValue(config.sheetNames.lines, sheet, (cellIds[columnNum] + lineNum));
+                var val = util.readValue(sheetName, sheet, (cellIds[columnNum] + lineNum));
                 linesData += '[' + (colNum + val) + ", 0]";
                 linesData += ((columnNum + 1) === cellIds.length) ? "" : ",";
             }
@@ -63,7 +60,7 @@ function createLinesForReelHeightOne(sheet, startingCellId, endCellId) {
     util.writeData('lines.txt', linesData);
 }
 
-function createLinesForMultiReelHeight(sheet, startingCellId, endCellId) {
+function createLinesForMultiReelHeight(sheetName, sheet, startingCellId, endCellId) {
     var linesData;
     if (startingCellId && endCellId) {
         var startingCellPoint = util.upperCaseAndSpiltCellVal(startingCellId);
@@ -74,7 +71,7 @@ function createLinesForMultiReelHeight(sheet, startingCellId, endCellId) {
         for (var lineNum = startingCellPoint[1]; lineNum <= parseInt(endCellPoint[1]); lineNum++) {
             linesData += '[';
             for (var columnNum = 0; columnNum < cellIds.length; columnNum++) {
-                var val = util.readValue(config.sheetNames.lines, sheet, (cellIds[columnNum] + lineNum));
+                var val = util.readValue(sheetName, sheet, (cellIds[columnNum] + lineNum));
                 linesData += '[' + columnNum + "," + val + "]";
                 linesData += ((columnNum + 1) === cellIds.length) ? "" : ",";
             }

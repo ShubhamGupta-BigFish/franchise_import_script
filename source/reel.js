@@ -1,18 +1,16 @@
 var prompt = require('prompt-sync')({ sigint: true });
-var config = require('./config.json');
+var userInputConfig = require('./userInputConfig.json');
 var util = require('./util');
 var autoFindReelData = require('./autoFindReelData');
 
 // aj5 ak129 an5-ao129 ar5-as29
-function createReels(workbook) {
-    var sheet = workbook.Sheets[config.sheetNames.reel];
-
+function createReels(sheetName, sheet) {
     if(!sheet) {
         util.logError("SHEET NOT FOUND");
         return;
     }
 
-    var reelData = autoFindReelData.determineReelData(sheet, config.autoFindKeys.reel);
+    var reelData = autoFindReelData.determineReelData(sheet, userInputConfig.autoFindKeys.reel);
 
     var reels = "['reels'=>[\n";
     var toolCorrect = false;
@@ -58,13 +56,13 @@ function createReels(workbook) {
                 for (var j = 0; j < parseInt(reelLength); j++) {
                     var rowNum = parseInt(startingCellPoint[1]) + j;
 
-                    var val = util.readValue(config.sheetNames.reel, sheet, (cellIds[i] + rowNum));
-                    if(!config.symbolIdentMap.hasOwnProperty(val)) {
-                        util.logError(val + " value at " + cellIds[i] + rowNum + " not found in symbolIdentMap object of config.js");
+                    var val = util.readValue(sheetName, sheet, (cellIds[i] + rowNum));
+                    if(!userInputConfig.symbolIdentMap.hasOwnProperty(val)) {
+                        util.logError(val + " value at " + cellIds[i] + rowNum + " not found in symbolIdentMap object of config.json");
                         continue;
                     }
 
-                    reels += config.symbolIdentMap[val];
+                    reels += userInputConfig.symbolIdentMap[val];
                     reels += ((j + 1) === parseInt(reelLength)) ? "" : ",";
                 }
                 reels += "],\n";

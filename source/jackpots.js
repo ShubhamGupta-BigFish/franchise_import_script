@@ -1,17 +1,15 @@
 var prompt = require('prompt-sync')({ sigint: true });
-var config = require('./config.json');
+var userInputConfig = require('./userInputConfig.json');
 var util = require('./util');
 var autoFindRowColumn = require('./autoFindRowColumn');
 
-function createJackpots(workbook) {
-    var sheet = workbook.Sheets[config.sheetNames.jackpots];
-
+function createJackpots(sheetName, sheet) {
     if (!sheet) {
         util.logError("SHEET NOT FOUND");
         return;
     }
 
-    var autoFindData = autoFindRowColumn.determineData(workbook.Sheets[config.sheetNames.jackpots], config.autoFindKeys.jackpot)
+    var autoFindData = autoFindRowColumn.determineData(sheet, userInputConfig.autoFindKeys.jackpot)
 
     var toolCorrect = false;
     if (autoFindData && Object.keys(autoFindData).length > 0) {
@@ -34,15 +32,15 @@ function createJackpots(workbook) {
         var rowNum = parseInt(startingCellPoint[1]);
         for (var cellNum = 0; cellNum < cellIds.length; cellNum++) {
 
-            var jackpotType = util.readValue(config.sheetNames.jackpots, sheet, (cellIds[cellNum] + (rowNum - 1)));
+            var jackpotType = util.readValue(sheetName, sheet, (cellIds[cellNum] + (rowNum - 1)));
 
             if(!jackpotType) {
-                util.logError("JACKPOT TYPE NOT FOUND AT CELL " + (cellIds[cellNum] + (rowNum - 1)) + " in sheet " + config.sheetNames.jackpots);
+                util.logError("JACKPOT TYPE NOT FOUND AT CELL " + (cellIds[cellNum] + (rowNum - 1)) + " in sheet " + sheetName);
                 continue;
             }
 
-            var jackpotVal = util.readValue(config.sheetNames.jackpots, sheet, (cellIds[cellNum] + rowNum));
-            var incrementalPercentage = util.readValue(config.sheetNames.jackpots, sheet, (cellIds[cellNum] + (rowNum + 1)));
+            var jackpotVal = util.readValue(sheetName, sheet, (cellIds[cellNum] + rowNum));
+            var incrementalPercentage = util.readValue(sheetName, sheet, (cellIds[cellNum] + (rowNum + 1)));
 
             jackpotStr += "[\n";
             jackpotStr += "'type'=>'" + (jackpotType).toLowerCase() + "',\n";

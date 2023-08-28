@@ -1,20 +1,19 @@
 
 var prompt = require('prompt-sync')({ sigint: true });
-var config = require('./config.json');
+var userInputConfig = require('./userInputConfig.json');
 var util = require('./util');
 var autoFindSingleColumnData = require('./autoFindSingleColumnData.js');
 
 // f33-f48 f17-f28 f4-f13 j19-j30 j4-j15
-function createBets(workbook) {
+function createBets(sheetName, sheet) {
     var bets = "[\n";
-    var sheet = workbook.Sheets[config.sheetNames.bet];
 
     if (!sheet) {
         util.logError("SHEET NOT FOUND");
         return;
     }
 
-    var autoFindData = autoFindSingleColumnData.determineData(sheet, config.autoFindKeys.bet);
+    var autoFindData = autoFindSingleColumnData.determineData(sheet, userInputConfig.autoFindKeys.bet);
 
     var toolCorrect = false;
     if (autoFindData && autoFindData.length > 0) {
@@ -48,7 +47,7 @@ function createBets(workbook) {
             var startingCellPoint = util.upperCaseAndSpiltCellVal(startingCellId);
             var endCellPoint = util.upperCaseAndSpiltCellVal(endCellId);
             for (var j = parseInt(startingCellPoint[1]); j <= parseInt(endCellPoint[1]); j++) {
-                bets += util.readValue(config.sheetNames.bet, sheet, startingCellPoint[0] + j);
+                bets += util.readValue(sheetName, sheet, startingCellPoint[0] + j);
                 bets += (j === parseInt(endCellPoint[1])) ? "" : ",";
             }
         }

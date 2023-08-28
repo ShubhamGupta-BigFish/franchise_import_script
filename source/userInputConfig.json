@@ -1,0 +1,39 @@
+{
+    "fileName": "C:/Users/sg102852/Downloads/workspace/fast bingo meta/EngineerInput_FastBingoMeta_v4 - Copy.xlsx",
+    "sheetNames": {
+        "reels": "Engineer 1",
+        "bets": "Bet Structure",
+        "rules": "Engineer 2",
+        "lines": "Engineer 2",
+        "jackpots": "Engineer 4",
+        "anyTable": "Engineer 4"
+    },
+    "symbolIdentMap": {
+        "PIC1": 1,
+        "PIC2": 2,
+        "PIC3": 3,
+        "PIC4": 4,
+        "PIC5": 5,
+        "A": 6,
+        "K": 7,
+        "Q": 8,
+        "J": 9,
+        "10": 10,
+        "WILD": 11,
+        "SCAT": 15,
+        "SCAT2": 15,
+        "SCAT3": 16
+    },
+    "autoFindKeys": {
+        "bet": "Scalable Bet Multiplier",
+        "reel": "ReelData",
+        "rules": "RulesData",
+        "lines": "LineData",
+        "jackpot": "JackpotData"
+    },
+    "importAnyTableCol": {
+        "column0": "ident",
+        "column1": "multiplier",
+        "column2": "weights"
+    }
+}
