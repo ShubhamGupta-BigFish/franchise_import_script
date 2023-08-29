@@ -60,11 +60,18 @@ This tool imports data from an Excel sheet and converts it into a provided forma
             "lines": "LineData",
             "jackpot": "JackpotData"
         },**
-      ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/4a3a4964-1bf0-4d3f-a06d-f1e6d7557e25)
-      ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/d401f936-aa57-4eb8-998d-ffb40fd9f1bb)
-      ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/5f1ffc7a-552c-4251-90a7-cfe141d67311)
-      ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/ee626b48-8e02-4e72-af8f-22e973eadd99)
-    
+
+   
+    ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/1f74e044-4daa-4068-8cbc-f9f7160bd1b0)
+   ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/f44e90c2-1bb8-4d77-9968-6d4a76ca2408)
+   ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/9382d36b-a1da-4c3a-89bf-318966ddf4f5)
+   ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/86887057-3730-4fd2-9fb1-d2e39d641a43)
+
+
+
+
+
+
       
       5. This is specific for if you need to import a table and you need to rename keys or add more keys. 
     
