@@ -2,28 +2,21 @@
 [
 'type'=>'grand',
 'betMode'=>'anyBet',
-'multiplier'=>40000,
-'betContribution'=>0.001,
+'multiplier'=>200000,
+'betContribution'=>0.002,
 'ident'=>[-1, -1, -1, -1, -1],
 'allowWilds' => false
 ],[
 'type'=>'major',
 'betMode'=>'anyBet',
-'multiplier'=>7500,
-'betContribution'=>0.0015,
+'multiplier'=>50000,
+'betContribution'=>0,
 'ident'=>[-1, -1, -1, -1, -1],
 'allowWilds' => false
 ],[
 'type'=>'minor',
 'betMode'=>'anyBet',
-'multiplier'=>1000,
-'betContribution'=>0,
-'ident'=>[-1, -1, -1, -1, -1],
-'allowWilds' => false
-],[
-'type'=>'mini',
-'betMode'=>'anyBet',
-'multiplier'=>500,
+'multiplier'=>10000,
 'betContribution'=>0,
 'ident'=>[-1, -1, -1, -1, -1],
 'allowWilds' => false

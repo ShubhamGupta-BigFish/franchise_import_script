@@ -8,7 +8,15 @@
         "cellText": false
     },
     "gameType": {
-        "LINE": 1, 
+        "LINE": 1,
         "WAYS": 2
-    }
+    },
+    "moduleNames": [
+        "bets",
+        "reels",
+        "rules",
+        "lines",
+        "jackpots",
+        "anyTable"
+    ]
 }

@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var colors = require('colors');
+var prompt = require('prompt-sync')({ sigint: true });
 
 colors.enable();
 
@@ -91,7 +92,43 @@ module.exports = {
             console.log(e);
         }
     },
-    logError: function(msg) {
+    logError: function (msg) {
         console.log(msg.underline.red);
+    },
+    promptAndValidate: function (ques, parseType, validInputs) {
+        if (validInputs === undefined) {
+            module.exports.logError("Valid Input Values not found");
+            return;
+        }
+
+        var inputValidated = false;
+        while (!inputValidated) {
+            try {
+                var userResponse = prompt(ques);
+                if (parseType === 'number') {
+                    userResponse = parseInt(userResponse);
+                }
+
+                if (Array.isArray(validInputs)) {
+                    if (validInputs.indexOf(userResponse) > -1) {
+                        inputValidated = true;
+                        break;
+                    } else {
+                        module.exports.logError("user input is not valid, user input is not present in predefined array");
+                    }
+                } else if (typeof validInputs == 'number') {
+                    if (userResponse === validInputs) {
+                        inputValidated = true;
+                        break;
+                    } else {
+                        module.exports.logError("user input is not valid. user input is not correct number");
+                    }
+                }
+            } catch (e) {
+                throw e;
+            }
+        }
+
+        return userResponse;
     }
 }

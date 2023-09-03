@@ -1,8 +1,8 @@
 {
     "fileName": "C:/Users/sg102852/Downloads/workspace/fast bingo meta/EngineerInput_FastBingoMeta_v4 - Copy.xlsx",
     "sheetNames": {
-        "reels": "Engineer 1",
         "bets": "Bet Structure",
+        "reels": "Engineer 1",
         "rules": "Engineer 2",
         "lines": "Engineer 2",
         "jackpots": "Engineer 4",
