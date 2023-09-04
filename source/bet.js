@@ -1,5 +1,4 @@
 
-var prompt = require('prompt-sync')({ sigint: true });
 var userInputConfig = require('./userInputConfig.json');
 var util = require('./util');
 var autoFindSingleColumnData = require('./autoFindSingleColumnData.js');
@@ -16,33 +15,46 @@ function createBets(sheetName, sheet) {
     var autoFindData = autoFindSingleColumnData.determineData(sheet, userInputConfig.autoFindKeys.bet);
 
     var toolCorrect = false;
+    var importBetConfigNumber = 0;
+
     if (autoFindData && autoFindData.length > 0) {
-        toolCorrect = prompt("Tool Found " + autoFindData.length + " bet structure (1 for yes/ 0 for no) : ");
+        toolCorrect = util.promptAndValidate("Tool Found " + autoFindData.length + " bet structure (1 for yes/ 0 for no) : ", "number", [0, 1]);
     }
 
-    if (toolCorrect && parseInt(toolCorrect) === 1) {
-        // do nothing
+    if (toolCorrect === 1) {
         importBetConfigNumber = autoFindData.length;
     } else {
-        var importBetConfigNumber = prompt("Enter the number of bet config you need to import : ");
+        importBetConfigNumber = util.promptAndValidate("Enter the number of bet config you need to import : ", "number", "numberRange");
     }
 
-    for (var versionNum = 0; versionNum < parseInt(importBetConfigNumber); versionNum++) {
+    for (var versionNum = 0; versionNum < importBetConfigNumber; versionNum++) {
 
         var dataCorrect = false;
+        var startingCellId;
+        var endCellId;
+
         if (autoFindData[versionNum] && Object.keys(autoFindData[versionNum]).length > 0) {
-            dataCorrect = prompt("Tool Found staring and ending cell id at " + autoFindData[versionNum].finalKey + " (1 for yes/ 0 for no) : ");
+            dataCorrect = util.promptAndValidate("Tool Found staring and ending cell id at " + autoFindData[versionNum].finalKey + " (1 for yes/ 0 for no) : ", "number", [0, 1]);
         }
 
-        if (dataCorrect && parseInt(dataCorrect) == 1) {
+        if (dataCorrect == 1) {
             startingCellId = autoFindData[versionNum].startingCell;
             endCellId = autoFindData[versionNum].endingCell;
         } else {
-            var startingCellId = prompt("Enter Starting cell Id for " + versionNum + " : ");
-            var endCellId = prompt("Enter end cell Id for " + versionNum + " : ");
+            startingCellId = util.promptAndValidate(
+                "Enter Starting cell Id for " + versionNum + " : ",
+                "",
+                "notEmpty"
+            );
+            startingCellId = util.promptAndValidate(
+                "Enter end cell Id for " + versionNum + " : ",
+                "",
+                "notEmpty"
+            );
         }
 
         bets += "'" + versionNum + "'=>[\n 'bets'=>[";
+
         if (startingCellId && endCellId) {
             var startingCellPoint = util.upperCaseAndSpiltCellVal(startingCellId);
             var endCellPoint = util.upperCaseAndSpiltCellVal(endCellId);
@@ -51,22 +63,12 @@ function createBets(sheetName, sheet) {
                 bets += (j === parseInt(endCellPoint[1])) ? "" : ",";
             }
         }
+        
         bets += "],\n],\n"
     }
     bets += "]";
-    
+
     util.writeData('bet.txt', bets);
 }
-
-// function errorHandler() {
-//     while (true) {
-//         try {
-//           //
-//           break;
-//         } catch (Exception e ) {
-//           if (--numTries == 0) throw e;
-//         }
-//       }
-// }
 
 module.exports.createBets = createBets;

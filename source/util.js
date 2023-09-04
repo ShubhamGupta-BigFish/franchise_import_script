@@ -123,6 +123,21 @@ module.exports = {
                     } else {
                         module.exports.logError("user input is not valid. user input is not correct number");
                     }
+                } else if (validInputs === 'numberRange') {
+                    if (!isNaN(userResponse)) {
+                        inputValidated = true;
+                        break;
+                    } else {
+                        module.exports.logError("user input is not valid. user input is not number");
+                    }
+                } else if (validInputs === 'notEmpty') {
+                    console.log(userResponse);
+                    if (userResponse === "") {
+                        module.exports.logError("user input is not valid. user input is empty");
+                    } else {
+                        inputValidated = true;
+                        break;
+                    }
                 }
             } catch (e) {
                 throw e;
