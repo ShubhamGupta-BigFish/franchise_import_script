@@ -1,5 +1,5 @@
 {
-    "fileName": "C:/Users/sg102852/Downloads/workspace/fast bingo meta/EngineerInput_FastBingoMeta_v4 - Copy.xlsx",
+    "fileName": "C:/Users/sg102852/Downloads/workspace/fast bingo meta/90%_EngineerInput_FastBingoMeta_v1.xlsx",
     "sheetNames": {
         "bets": "Bet Structure",
         "reels": "Engineer 1",
@@ -32,8 +32,11 @@
         "jackpot": "JackpotData"
     },
     "importAnyTableCol": {
-        "column0": "ident",
-        "column1": "multiplier",
-        "column2": "weights"
+        "defaultCol": "ident",
+        "defaultVal": 1,
+        "columns": {
+            "column0": "credit",
+            "column1": "weight"
+        }
     }
 }

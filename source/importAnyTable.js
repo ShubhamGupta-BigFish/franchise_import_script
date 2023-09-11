@@ -26,13 +26,19 @@ function createAnyTable(sheetName, sheet) {
             var cellIds = util.buildColumnsArray(startingCellId + ":" + endCellId);
 
             for (var lineNum = startingCellPoint[1]; lineNum <= parseInt(endCellPoint[1]); lineNum++) {
-                tableData += "['" + userInputConfig.importAnyTableCol.column0 + "'=>1";
+                tableData += "[";
+                if (userInputConfig.importAnyTableCol.hasOwnProperty("defaultCol") && userInputConfig.importAnyTableCol.defaultCol) {
+                    tableData += "'" + userInputConfig.importAnyTableCol.defaultCol + "'=>" + userInputConfig.importAnyTableCol.defaultVal + ",";
+                }
                 for (var colNum = 0; colNum < cellIds.length; colNum++) {
                     var val = util.readValue(sheetName, sheet, (cellIds[colNum] + lineNum));
                     if (typeof val === 'string') {
-                        tableData += ",'" + userInputConfig.importAnyTableCol['column' + (colNum + 1)] + "'=>'" + val + "'";
+                        tableData += "'" + userInputConfig.importAnyTableCol.columns['column' + colNum] + "'=>'" + val + "'";
                     } else {
-                        tableData += ",'" + userInputConfig.importAnyTableCol['column' + (colNum + 1)] + "'=>" + val;
+                        tableData += "'" + userInputConfig.importAnyTableCol.columns['column' + colNum] + "'=>" + val;
+                    }
+                    if (colNum < (cellIds.length - 1)) {
+                        tableData += ",";
                     }
                 }
                 tableData += "],\n";
