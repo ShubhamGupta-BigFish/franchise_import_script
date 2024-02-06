@@ -76,8 +76,17 @@ This tool imports data from an Excel sheet and converts it into a provided forma
       
       5. This is specific for if you need to import a table and you need to rename keys or add more keys. 
     
-      **"importAnyTableCol": {
-            "column0": "ident",
-            "column1": "multiplier",
-            "column2": "weights"
-        }** 
+      **
+      "importAnyTableCol": {
+        "defaultCol": "ident",
+        "defaultVal": 0,
+        "definedTableNames": true,
+        "tableNameColumn": 2,
+        "defaultTableName": "weights",
+        "columns": {
+            "column0": "index",
+            "column1": "finalFeatureId",
+            "column2": "prize",
+            "column3": "weight"
+        }
+    }** 

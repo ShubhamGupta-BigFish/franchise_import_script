@@ -1,6 +1,7 @@
-var prompt = require('prompt-sync')({ sigint: true });
+// var prompt = require('prompt-sync')({ sigint: true });
 var userInputConfig = require('./userInputConfig.json');
 var util = require('./util');
+var autoFindAnyTableData = require('./autoFindAnyTableData');
 
 // f33-f48 f17-f28 f4-f13 j19-j30 j4-j15
 function createAnyTable(sheetName, sheet) {
@@ -11,14 +12,18 @@ function createAnyTable(sheetName, sheet) {
         return;
     }
 
-    var importTableConfigNumber = prompt("Enter the tables you need to import : ");
+    var importTableIndicies = autoFindAnyTableData.determineTableData(sheetName, sheet, userInputConfig.autoFindKeys.anyTable);
 
-    for (var versionNum = 0; versionNum < parseInt(importTableConfigNumber); versionNum++) {
-        tableData += "'" + versionNum + "'=>[\n 'weights'=>[\n";
+    for (var versionNum = 0; versionNum < importTableIndicies.length; versionNum++) {
 
-        var startingCellId = prompt("Enter Starting cell Id for table no " + (versionNum + 1) + " : ");
-        var endCellId = prompt("Enter end cell Id for table no " + (versionNum + 1) + " : ");
+        var tableName = (userInputConfig.importAnyTableCol.hasOwnProperty("defaultTableName")) ? userInputConfig.importAnyTableCol.defaultTableName : ('table_' + versionNum);
+        var startingCellId = importTableIndicies[versionNum].startingCell;
+        var endCellId = importTableIndicies[versionNum].endingCell;
 
+        if (userInputConfig.importAnyTableCol.hasOwnProperty("definedTableNames") && userInputConfig.importAnyTableCol.definedTableNames) {
+            tableName = util.readValue(sheetName, sheet, (importTableIndicies[versionNum].cols[(userInputConfig.importAnyTableCol.tableNameColumn - 1)] + importTableIndicies[versionNum].startingRow[0]));
+        }
+        tableData += " '" + tableName + "'=>[\n";
 
         if (startingCellId && endCellId) {
             var startingCellPoint = util.upperCaseAndSpiltCellVal(startingCellId);
@@ -32,6 +37,9 @@ function createAnyTable(sheetName, sheet) {
                 }
                 for (var colNum = 0; colNum < cellIds.length; colNum++) {
                     var val = util.readValue(sheetName, sheet, (cellIds[colNum] + lineNum));
+                    if (userInputConfig.symbolIdentMap.hasOwnProperty(val)) {
+                        val = userInputConfig.symbolIdentMap[val];
+                    }
                     if (typeof val === 'string') {
                         tableData += "'" + userInputConfig.importAnyTableCol.columns['column' + colNum] + "'=>'" + val + "'";
                     } else {
@@ -44,7 +52,7 @@ function createAnyTable(sheetName, sheet) {
                 tableData += "],\n";
             }
         }
-        tableData += "],\n],\n"
+        tableData += "],\n"
     }
     tableData += "]";
     util.writeData('anyTable.txt', tableData);
