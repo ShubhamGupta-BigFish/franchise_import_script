@@ -76,8 +76,7 @@ This tool imports data from an Excel sheet and converts it into a provided forma
       
       5. This is specific for if you need to import a table and you need to rename keys or add more keys. 
     
-      **
-      "importAnyTableCol": {
+      **"importAnyTableCol": {
         "defaultCol": "ident",
         "defaultVal": 0,
         "definedTableNames": true,
@@ -89,4 +88,7 @@ This tool imports data from an Excel sheet and converts it into a provided forma
             "column2": "prize",
             "column3": "weight"
         }
-    }** 
+    }**
+
+   ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/132986623/fa43be59-39b5-432e-a436-b62dd76b2578)
+
