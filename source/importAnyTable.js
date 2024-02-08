@@ -21,7 +21,7 @@ function createAnyTable(sheetName, sheet) {
         var endCellId = importTableIndicies[versionNum].endingCell;
 
         if (userInputConfig.importAnyTableCol.hasOwnProperty("definedTableNames") && userInputConfig.importAnyTableCol.definedTableNames) {
-            tableName = util.readValue(sheetName, sheet, (importTableIndicies[versionNum].cols[(userInputConfig.importAnyTableCol.tableNameColumn - 1)] + importTableIndicies[versionNum].startingRow[0]));
+            tableName = util.readValue(sheetName, sheet, (importTableIndicies[versionNum].cols[(userInputConfig.importAnyTableCol.tableNameColumn - 1)] + (importTableIndicies[versionNum].startingRow[0] - 1)));
         }
         tableData += " '" + tableName + "'=>[\n";
 
