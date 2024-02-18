@@ -1,0 +1,42 @@
+{
+    "lobby": {
+        "Casino": [
+            "Standard",
+            "VIP",
+            "HighVIP"
+        ],
+        "Slotzilla": [
+            "Standard",
+            "VIP"
+        ]
+    },
+    "varaintFileNameMap": {
+        "Standard": "config_standard",
+        "VIP": "config_v_i_p",
+        "HighVIP": "config_high_v_i_p"
+    },
+    "variantGameNameMap": {
+        "Standard": {
+            "first": "",
+            "last": ""
+        },
+        "VIP": {
+            "first": "",
+            "last": " VIP"
+        },
+        "HighVIP": {
+            "first": "High Roller Gala - ",
+            "last": " VIP"
+        }
+    },
+    "variantBaseClassMap": {
+        "Standard": "Standard",
+        "VIP": "VIP",
+        "HighVIP": "HighRoller"
+    },
+    "variantParentClassMap": {
+        "Standard": "Standard",
+        "VIP": "Standard",
+        "HighVIP": "Standard"
+    }
+}

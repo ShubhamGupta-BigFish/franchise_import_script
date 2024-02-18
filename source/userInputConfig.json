@@ -59,5 +59,13 @@
             "column2": "prize",
             "column3": "weight"
         }
+    },
+    "multiVariant": {
+        "folderName": "Treasuresofthereddragon",
+        "gameName": "TREASURES OF THE RED DRAGON",
+        "percentages": [
+            88,
+            90
+        ]
     }
 }
