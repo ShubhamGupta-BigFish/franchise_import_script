@@ -132,7 +132,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-source/userInputConfig.json
 package-lock.json
 source/output/lines.txt
 source/output/bet.txt

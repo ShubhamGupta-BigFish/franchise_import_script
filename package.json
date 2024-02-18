@@ -5,7 +5,8 @@
   "main": "excel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node excel.js"
+    "start": "node excel.js",
+    "multivariant": "node source/multiVariant/multiVariant.js"
   },
   "keywords": [],
   "author": "",
