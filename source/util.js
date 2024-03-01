@@ -95,6 +95,11 @@ module.exports = {
     logError: function (msg) {
         console.log(msg.underline.red);
     },
+
+    logSuccess: function (msg) {
+        console.log(msg.underline.green);
+    },
+
     promptAndValidate: function (ques, parseType, validInputs) {
         if (validInputs === undefined) {
             module.exports.logError("Valid Input Values not found");

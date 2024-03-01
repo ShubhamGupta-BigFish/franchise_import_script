@@ -36,15 +36,20 @@ function writeData(lobbyName, variantName, percentageId) {
     try {
         var writeData = createWriteData(lobbyName, variantName, percentageId);
         var folderPath = getFolderPath(lobbyName);
+        var fileName = path.join(folderPath, "/", config.varaintFileNameMap[variantName] + percentageId + ".php");
         try {
             if (!fs.existsSync(folderPath)) {
                 util.logError("folder Pathis not correct " + folderPath);
+                return;
+            } else if (fs.existsSync(fileName)) {
+                util.logError("file already exists " + fileName);
                 return;
             }
         } catch (err) {
             return console.error(err);
         }
-        fs.writeFileSync(folderPath + "/" + config.varaintFileNameMap[variantName] + percentageId + ".php", writeData);
+        fs.writeFileSync(fileName, writeData);
+        util.logSuccess("filc create successfully " + fileName);
     } catch (e) {
         console.log(e);
     }
@@ -57,10 +62,8 @@ function getFolderPath(lobbyName) {
 function createWriteData(lobbyName, variantName, percentageId) {
     return `<?php
 
-namespace App\\Models\\Slots\\Config\\${multiVariantUserConfig.folderName}\\${lobbyName};
-
+namespace App\\Models\\Slots\\Config\\${getFolderName(multiVariantUserConfig.folderName)}\\${lobbyName};
 ${getBaseClassLocation(lobbyName, variantName)}
-
 class Config${variantName}${percentageId} {
     static $settingsFlatArrayOverride = null;
 
@@ -98,11 +101,15 @@ function getBaseClassLocation(lobbyName, variantName) {
 
 function getParentClassLocation(lobbyName, variantName, percentageId) {
     if (lobbyName === "Casino" && variantName === "Standard") {
-        return "\\App\\Models\\Slots\\Config\\" + multiVariantUserConfig.folderName + "\\" + lobbyName + "\\Config" + config.variantParentClassMap[variantName] + "::get();"
+        return "\\App\\Models\\Slots\\Config\\" + getFolderName(multiVariantUserConfig.folderName) + "\\" + lobbyName + "\\Config" + config.variantParentClassMap[variantName] + "::get();"
     } else if (lobbyName === "Slotzilla" && variantName === "Standard") {
-        return "\\App\\Models\\Slots\\Config\\" + multiVariantUserConfig.folderName + "\\Casino\\Config" + config.variantParentClassMap[variantName] + percentageId + "::get();"
+        return "\\App\\Models\\Slots\\Config\\" + getFolderName(multiVariantUserConfig.folderName) + "\\Casino\\Config" + config.variantParentClassMap[variantName] + percentageId + "::get();"
     }
-    return "\\App\\Models\\Slots\\Config\\" + multiVariantUserConfig.folderName + "\\" + lobbyName + "\\Config" + config.variantParentClassMap[variantName] + percentageId + "::get();"
+    return "\\App\\Models\\Slots\\Config\\" + getFolderName(multiVariantUserConfig.folderName) + "\\" + lobbyName + "\\Config" + config.variantParentClassMap[variantName] + percentageId + "::get();"
+}
+
+function getFolderName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 function getGameName(variantName) {
