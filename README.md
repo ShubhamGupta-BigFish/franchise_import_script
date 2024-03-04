@@ -92,3 +92,13 @@ This tool imports data from an Excel sheet and converts it into a provided forma
 
    ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/132986623/fa43be59-39b5-432e-a436-b62dd76b2578)
 
+
+# **Multi Variant Files Creation**
+To create files you will need to add a few config information inside "multiVariant" object in userInputConfig.json file.
+1. folderName - this will contain the game folder name
+2. gameName - this will contain the game name
+3. percentages - this will contain the percentage of variants you would like to create. This is an array so you can add multiple.
+
+Once you added all the config. Open the terminal and run the command "**npm run multivariant**". This will create all the files. If the file already exists it will display the message in red. 
+
+   ![image](https://github.com/ShubhamGupta-BigFish/franchise_import_script/assets/133100535/69bd1269-bf91-44b0-8546-0b430ef54997)
