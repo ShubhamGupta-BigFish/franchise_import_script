@@ -3,6 +3,7 @@ var path = require('path');
 var userInputConfig = require("../userInputConfig.json");
 var config = require('./multiVariantConfig.json');
 var util = require('../util');
+var variantYamlUpdate = require('./variantYamlUpdate');
 
 if (!userInputConfig.hasOwnProperty("multiVariant")) {
 	util.logError("multiVariant data not found, please set multi variant config data in userInputConfig.json");
@@ -23,33 +24,39 @@ if (!multiVariantUserConfig.hasOwnProperty("folderName") || !multiVariantUserCon
 createMultiVariantFiles();
 
 function createMultiVariantFiles() {
+	var varaintYamlFileUpDateData = {};
 	for (const [lobbyName, lobbyData] of Object.entries(config.lobby)) {
 		lobbyData.forEach(variantName => {
 			multiVariantUserConfig.percentages.forEach(percentageId => {
-				writeData(lobbyName, variantName, percentageId);
+				var isFileCreated = executeWriteData(lobbyName, variantName, percentageId);
+				if (isFileCreated) {
+					var slotConfigVariantName = lobbyName.toLowerCase() + "_" + variantName;
+					if (!varaintYamlFileUpDateData.hasOwnProperty(slotConfigVariantName)) {
+						varaintYamlFileUpDateData[slotConfigVariantName] = [];
+					}
+					varaintYamlFileUpDateData[slotConfigVariantName].push(percentageId);
+				}
 			})
 		})
 	}
+	variantYamlUpdate.updateYamlFile(getFolderName(multiVariantUserConfig.folderName), varaintYamlFileUpDateData);
 }
 
-function writeData(lobbyName, variantName, percentageId) {
+function executeWriteData(lobbyName, variantName, percentageId) {
 	try {
-		var writeData = createWriteData(lobbyName, variantName, percentageId);
+		var dataToWrite = createWriteData(lobbyName, variantName, percentageId);
 		var folderPath = getFolderPath(lobbyName);
 		var fileName = path.join(folderPath, "/", config.varaintFileNameMap[variantName] + percentageId + ".php");
-		try {
-			if (!fs.existsSync(folderPath)) {
-				util.logError("folder Pathis not correct " + folderPath);
-				return;
-			} else if (fs.existsSync(fileName)) {
-				util.logError("file already exists " + fileName);
-				return;
-			}
-		} catch (err) {
-			return console.error(err);
+		if (!fs.existsSync(folderPath)) {
+			util.logError("folder Pathis not correct " + folderPath);
+			return;
+		} else if (fs.existsSync(fileName)) {
+			util.logError("file already exists " + fileName);
+			return;
 		}
-		fs.writeFileSync(fileName, writeData);
+		fs.writeFileSync(fileName, dataToWrite);
 		util.logSuccess("filc create successfully " + fileName);
+		return true;
 	} catch (e) {
 		console.log(e);
 	}
