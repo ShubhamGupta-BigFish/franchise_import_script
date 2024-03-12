@@ -1,20 +1,12 @@
 const fs = require('fs');
 const yaml = require("js-yaml");
 var path = require('path');
-var createdFilesData = {
-    casino_Standard: [88, 90],
-    casino_VIP: [88, 90],
-    casino_HighVIP: [88, 90],
-    slotzilla_Standard: [88, 90],
-    slotzilla_VIP: [88, 90]
-};
-updateYamlFile("Treasuresofthereddragon", createdFilesData);
+var util = require('../util');
 
 function updateYamlFile(gameFolderName, createdFilesData) {
     if (createdFilesData && Object.keys(createdFilesData).length === 0) {
         return;
     }
-    // console.log(createdFilesData);
     var slotsConfigYamlPath = path.join(process.env.CASINO_CHECKOUT, "/trunk/server/app/yaml/slots_2_config.yaml");
     var slotsConfigYamlData = yaml.load(fs.readFileSync(slotsConfigYamlPath, 'utf-8'));
     var gameIdsConfigWise = findGameIdConfigWise(gameFolderName, slotsConfigYamlData);
@@ -22,54 +14,15 @@ function updateYamlFile(gameFolderName, createdFilesData) {
     var slotsConfigVariantYamlPath = path.join(process.env.CASINO_CHECKOUT, "/trunk/server/app/yaml/slots_2_config_variant.yaml");
     var slotsConfigVariantYamlData = fs.readFileSync(slotsConfigVariantYamlPath, 'utf-8');
     var gameIdsToInsert = determineGameIdsToInsert(yaml.load(slotsConfigVariantYamlData), gameIdsConfigWise, createdFilesData);
-    writeDataToInsert(gameFolderName, slotsConfigVariantYamlData, gameIdsConfigWise, gameIdsToInsert, createdFilesData, slotsConfigVariantYamlPath);
+    if(gameIdsToInsert.updateExistingData.length || gameIdsToInsert.createCompleteData.length) {
+        writeDataToInsert(gameFolderName, slotsConfigVariantYamlData, gameIdsToInsert, slotsConfigVariantYamlPath);
+    }
 }
 
-function writeDataToInsert(gameFolderName, slotsConfigVariantYamlData, gameIdsConfigWise, data, createdFilesData, slotsConfigVariantYamlPath) {
-    /*
-    var casinoPatch = '';
-    var slotzillaPatch = '';
-    for (var i = 0; i < gameIdsToInsert.length; i++) {
-        var lobbyId = gameIdsToInsert[i].split("_")[0];
-        var configId = gameIdsToInsert[i].split("_")[1];
-
-        if (lobbyId === 'casino') {
-            casinoPatch += `    ${gameIdsConfigWise[gameIdsToInsert[i]]}:
-`;
-            var str = '';
-            for (var j = 0; j < createdFilesData[gameIdsToInsert[i]].length; j++) {
-                str += `        ${createdFilesData[gameIdsToInsert[i]][j]}: \\App\\Models\\Slots\\Config\\${gameFolderName}\\Casino\\Config${configId}${createdFilesData[gameIdsToInsert[i]][j]}`;
-                str += '\n';
-            }
-            casinoPatch += str;
-        } else if (lobbyId === 'slotzilla') {
-            slotzillaPatch += `    ${gameIdsConfigWise[gameIdsToInsert[i]]}:
-`;
-            var str = '';
-            for (var j = 0; j < createdFilesData[gameIdsToInsert[i]].length; j++) {
-                str += `        ${createdFilesData[gameIdsToInsert[i]][j]}: \\App\\Models\\Slots\\Config\\${gameFolderName}\\Slotzilla\\Config${configId}${createdFilesData[gameIdsToInsert[i]][j]}`;
-                str += '\n';
-            }
-            slotzillaPatch += str;
-        }
-    }
-    console.log(casinoPatch);
-    console.log(slotzillaPatch);
-
-    var casinoData = slotsConfigVariantYamlData.substring(0, slotsConfigVariantYamlData.indexOf("slotzilla:"));
-    var slotzillaData = slotsConfigVariantYamlData.substring(slotsConfigVariantYamlData.indexOf("slotzilla:"), slotsConfigVariantYamlData.length);
-    casinoData += casinoPatch;
-    slotzillaData += slotzillaPatch
-    casinoData += slotzillaData;
-
-    fs.writeFileSync(slotsConfigVariantYamlPath, casinoData);
-    console.log("write complete");
-    */
-
+function writeDataToInsert(gameFolderName, slotsConfigVariantYamlData, data, slotsConfigVariantYamlPath) {
     var casinoPatch = "";
     var slotzillaPatch = "";
     for (const createData of data.createCompleteData) {
-        // console.log(createData);
         if (createData.lobbyId === "casino") {
             casinoPatch += `    ${createData.gameId}:
 `;
@@ -113,12 +66,12 @@ function writeDataToInsert(gameFolderName, slotsConfigVariantYamlData, gameIdsCo
         ${percentageId}: \\App\\Models\\Slots\\Config\\${gameFolderName}\\Slotzilla\\Config${createData.configId}${percentageId}`;
             }
         }
-        console.log(str);
         var targetIndex = casinoData.indexOf(createData.uniqueKey) + createData.uniqueKey.length;
         casinoData = casinoData.slice(0, targetIndex) + str + casinoData.slice(targetIndex, casinoData.length);
 
     }
     fs.writeFileSync(slotsConfigVariantYamlPath, casinoData);
+    util.logSuccess("Yaml File Updated successfully ");
 }
 
 function findGameIdConfigWise(gameFolderName, slotsConfigYamlData) {
@@ -141,21 +94,6 @@ function findGameIdConfigWise(gameFolderName, slotsConfigYamlData) {
 }
 
 function determineGameIdsToInsert(slotsConfigVariantYamlData, gameIdsConfigWise, createdFilesData) {
-
-    /*
-    var gameIdsToInsert = [];
-    for (const gameId in gameIdsConfigWise) {
-        if (slotsConfigVariantYamlData.casino && slotsConfigVariantYamlData.casino.hasOwnProperty(gameIdsConfigWise[gameId])) {
-            continue;
-        } else if (slotsConfigVariantYamlData.slotzilla && slotsConfigVariantYamlData.slotzilla.hasOwnProperty(gameIdsConfigWise[gameId])) {
-            continue;
-        } else if (createdFilesData.hasOwnProperty(gameId)) {
-            gameIdsToInsert.push(gameId);
-        }
-    }
-    return gameIdsToInsert;
-    */
-    // console.log(gameIdsConfigWise);
     var data = {
         createCompleteData: [],
         updateExistingData: []
@@ -175,7 +113,6 @@ function determineGameIdsToInsert(slotsConfigVariantYamlData, gameIdsConfigWise,
                 if (!slotsConfigVariantYamlData[lobbyId][gameId].hasOwnProperty(percentageIdId)) {
                     updateData.push(percentageIdId);
                 }
-                // console.log(gameId + " ----- " + lobbyId + " ----- " + configId + " ----- " + percentageIdId);
             }
             if (updateData.length > 0) {
                 var selectedGameConfigYamlData = Object.values(slotsConfigVariantYamlData[lobbyId][gameId]);
@@ -198,7 +135,6 @@ function determineGameIdsToInsert(slotsConfigVariantYamlData, gameIdsConfigWise,
             })
         }
     }
-    // console.log(JSON.stringify(data));
     return data;
 }
 
