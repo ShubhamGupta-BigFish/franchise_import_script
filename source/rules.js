@@ -52,7 +52,7 @@ function createLineDataFormat(sheetName, sheet, cellIds, startingCellPoint, endC
         var symbolId = (String(util.readValue(sheetName, sheet, (previousCellId + symbolCount)))).toUpperCase();
 
         if (!userInputConfig.symbolIdentMap.hasOwnProperty(symbolId)) {
-            util.logError(symbolId + " value not found in symbolIdentMap object of config.json");
+            util.logError(symbolId + " value not found in symbolIdentMap object of userInputConfig.json");
             continue;
         }
 
@@ -78,7 +78,7 @@ function createWaysDataFormat(sheetName, sheet, cellIds, startingCellPoint, endC
         var symbolId = (String(util.readValue(sheetName, sheet, (previousCellId + symbolCount)))).toUpperCase();
 
         if (!userInputConfig.symbolIdentMap.hasOwnProperty(symbolId)) {
-            util.logError(symbolId + " value not found in symbolIdentMap object of config.json");
+            util.logError(symbolId + " value not found in symbolIdentMap object of userInputConfig.json");
             continue;
         }
 

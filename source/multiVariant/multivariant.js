@@ -55,7 +55,7 @@ function executeWriteData(lobbyName, variantName, percentageId) {
 			return;
 		}
 		fs.writeFileSync(fileName, dataToWrite);
-		util.logSuccess("filc create successfully " + fileName);
+		util.logSuccess("file create successfully " + fileName);
 		return true;
 	} catch (e) {
 		console.log(e);

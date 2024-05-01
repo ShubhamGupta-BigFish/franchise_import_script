@@ -87,7 +87,11 @@ module.exports = {
     },
     writeData: function (fileName, data) {
         try {
-            fs.writeFileSync(path.join(__dirname, "/output/", fileName), data);
+            var folderName = path.join(__dirname, "/output");
+            if (!fs.existsSync(folderName)) {
+                fs.mkdirSync(folderName)
+            }
+            fs.writeFileSync(path.join(folderName, fileName), data);
         } catch (e) {
             console.log(e);
         }

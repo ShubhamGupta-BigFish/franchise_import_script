@@ -26,6 +26,7 @@ function createReels(sheetName, sheet) {
     }
 
     for (var reelNum = 0; reelNum < parseInt(numberOfReels); reelNum++) {
+        var reelPosConfirm;
         if (toolCorrect && parseInt(toolCorrect) === 1) { 
             reelPosConfirm = prompt("Tool Found Reel Config " + (reelNum + 1) + " starting and ending position are " + reelData[reelNum].finalKey + " (" + reelData[reelNum].reelHeight + ")" + " : (1 for yes/ 0 for no)");
         }
@@ -58,7 +59,7 @@ function createReels(sheetName, sheet) {
 
                     var val = util.readValue(sheetName, sheet, (cellIds[i] + rowNum));
                     if(!userInputConfig.symbolIdentMap.hasOwnProperty(val)) {
-                        util.logError(val + " value at " + cellIds[i] + rowNum + " not found in symbolIdentMap object of config.json");
+                        util.logError(val + " value at " + cellIds[i] + rowNum + " not found in symbolIdentMap object of userInputConfig.json");
                         continue;
                     }
 

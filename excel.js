@@ -15,11 +15,11 @@ var workbook = XLSX.readFile(userInputConfig.fileName, config.excelInitConfig);
 
 console.log("1. Bets\n2. Reels\n3. Rules\n4. Lines\n5. Jackpots\n6. Read Data from any table\n7. All\n");
 var selectionVal = util.promptAndValidate(": ", "number", [1, 2, 3, 4, 5, 6, 7]);
+console.log("selected Value is -------- " + selectionVal);
 
 runModule(selectionVal);
 
 function runModule(selectionVal) {
-    console.log("selectionVal -------- " + selectionVal);
 
     switch (selectionVal) {
         case 1:
