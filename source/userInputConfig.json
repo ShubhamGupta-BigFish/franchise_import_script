@@ -1,6 +1,5 @@
 {
-    
-    "fileName": "C:/Users/SG102852/Downloads/oldSystemBackup/Downloads_old/workspace/fast bingo meta/EngineerInput_FastBingoMeta_v8.xlsx",
+    "fileName": "C:/Users/VM104698/OneDrive - Aristocrat Gaming/Documents/Triple Fortune Blast/Math/Triple_Fortune_Bowls_Blast_Engineer_Input_V1_server.xlsx",
     "sheetNames": {
         "bets": "Bet Structure",
         "reels": "Reelstrip",
@@ -48,7 +47,7 @@
         "rules": "RulesData",
         "lines": "LineData",
         "jackpot": "JackpotData",
-        "anyTable": "Wheel"
+        "anyTable": "Wheel1"
     },
     "importAnyTableCol": {
         "definedTableNames": true,
@@ -64,9 +63,6 @@
     "multiVariant": {
         "folderName": "Orbsofprosperity",
         "gameName": "Orbs of Prosperity",
-        "percentages": [
-            88,
-            90
-        ]
+        "percentages": [88, 90]
     }
 }
